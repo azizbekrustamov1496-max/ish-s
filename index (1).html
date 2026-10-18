@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050b1c"><title>Ish Hisobi</title>
+<style>
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+:root{--cd:#0e1a38;--bd:#1b2d5a;--bl:#1f6bff;--gr:#17c47c;--pu:#8b5cf6;--tx:#e9eefc;--mu:#8ea1cc;--rd:#ff5d6c}
+body{background:radial-gradient(120% 60% at 50% 0,#10265a,#050b1c 60%) fixed;color:var(--tx);font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+#app{max-width:460px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 14px) 16px 110px}
+button,input,textarea{font:inherit;color:inherit}button{border:0;background:none;cursor:pointer}
+button:disabled{opacity:.4}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:14px}
+h1{font-size:26px}h2{font-size:17px;margin:18px 0 10px}h3{margin-bottom:8px}
+small{color:var(--mu);font-size:12.5px;display:block}
+.chip{display:flex;gap:6px;align-items:center;background:var(--cd);border:1px solid var(--bd);border-radius:20px;padding:4px 10px 4px 4px;font-weight:600}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;color:#fff;flex:none}
+.chip .av{width:26px;height:26px;font-size:12px}
+.card{display:block;width:100%;text-align:left;background:linear-gradient(160deg,#10204a,#0b1630);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px}
+.pr{display:flex;align-items:center;gap:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.pc{border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:3px;border:1px solid var(--bd);font-size:13.5px}
+.pc .av{margin-bottom:4px}.c0{background:linear-gradient(160deg,#0f4aa8,#0b2a66)}.c1{background:linear-gradient(160deg,#5b2fb0,#2a1560)}
+.big{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0c5a4a,#0b2f3a);border:1px solid #14705a;border-radius:18px;padding:14px;margin-bottom:12px}
+.big b,.b2{font-size:27px;display:block}.hero{background:linear-gradient(135deg,#12c795,#1f6bff);border:0}
+.row{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.rt{display:flex;align-items:center;gap:10px;justify-content:space-between}.rt>div{flex:1}.rt b{display:block}
+.tm{text-align:right;font-size:13px;flex:none!important}.tm em{display:block;color:var(--mu);font-style:normal;font-size:11px}
+.ra{display:flex;gap:8px;margin-top:8px}.ra button{flex:1;padding:8px;border-radius:10px;background:#16295a;font-size:13px}.ra .dl{color:var(--rd);background:#2a1a30}
+.pri,.gh{display:block;width:100%;padding:14px;border-radius:14px;font-weight:700;margin:6px 0 12px;text-align:center}
+.pri{background:var(--bl);box-shadow:0 6px 20px #1f6bff55}.gh{background:var(--cd);border:1px solid var(--bd)}
+.two .pri,.two .gh{margin:0}
+label{display:block;margin:12px 0 6px;font-weight:600}
+input,textarea{width:100%;background:var(--cd);border:1px solid var(--bd);border-radius:12px;padding:12px}
+textarea{height:70px;resize:none}
+.wk{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wk button,.tabs button{display:flex;align-items:center;gap:8px;padding:8px;border-radius:12px;background:var(--cd);border:1px solid var(--bd);font-weight:600}
+.wk .on,.tabs .on{background:var(--bl);border-color:var(--bl)}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}.tabs button{justify-content:center;padding:11px}
+.st{display:grid;grid-template-columns:52px 1fr 52px;gap:8px}.st button{background:var(--cd);border:1px solid var(--bd);border-radius:12px;font-size:22px}.st input{text-align:center}
+.tot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:12px;border-radius:14px;background:#0c3b3a;border:1px solid #14705a}.tot b{font-size:20px}
+.qs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.qs button{padding:14px 0;border-radius:12px;background:var(--bl);font-weight:700;font-size:16px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.cal .wd{color:var(--mu);font-size:12px;font-style:normal;padding:4px}
+.cal button{aspect-ratio:1;border-radius:50%;position:relative}.cal .td{border:1px solid var(--bl)}.cal .on{background:var(--bl)}
+.cal .has:after{content:"";position:absolute;bottom:3px;left:calc(50% - 2px);width:4px;height:4px;border-radius:50%;background:var(--gr)}
+.cn{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700}.cn button{font-size:22px;padding:0 12px}
+.tl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.tl div{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:12px;text-align:center}.tl b{font-size:20px;display:block}
+.ring{width:46px;height:46px;border-radius:50%;background:conic-gradient(var(--gr) calc(var(--p)*1%),#1b2d5a 0);display:grid;place-items:center;margin-top:6px}
+.ring i{width:36px;height:36px;border-radius:50%;background:#0b1630;display:grid;place-items:center;font-size:11px;font-style:normal}
+.bd{font-style:normal;font-size:12px;padding:4px 10px;border-radius:10px;background:#3a2a2a;color:#ffb3b3;margin-left:auto}.bd.g{background:#0d4d36;color:#7dffc4}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;background:#08122ccc;backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 6px calc(env(safe-area-inset-bottom) + 6px)}
+nav div{display:flex;width:100%;max-width:460px}nav button{flex:1;font-size:10.5px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px}nav button span{font-size:19px}nav .on{color:#4d8dff}
+.ov{position:fixed;inset:0;background:#000a;display:flex;align-items:flex-end;justify-content:center;z-index:5}
+.sh{background:#0a1530;border-radius:22px 22px 0 0;padding:18px 16px calc(env(safe-area-inset-bottom) + 16px);width:100%;max-width:460px;max-height:92vh;overflow:auto}
+.toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--gr);color:#032;padding:10px 18px;border-radius:20px;font-weight:700;z-index:9}
+.splash{text-align:center;padding-top:12vh}.logo{font-size:64px}.splash h1{font-size:38px;margin:8px 0}
+.lk{display:flex;justify-content:space-between;width:100%;padding:14px;border-bottom:1px solid var(--bd);text-align:left}
+</style></head><body><div id="app"></div>
+<script type="module">
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import{getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,onSnapshot,query,where,writeBatch}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+// Firebase config shu yerga qo'yilsa (const FIREBASE_CONFIG={...}) ilova o'zi ulanadi; bo'sh qolsa ilovaning o'zida so'raladi.
+const FIREBASE_CONFIG={apiKey:"AIzaSyDX6yfh_4L7aOsuRTVBZw_o2KrBHrMVehI",authDomain:"jop720-82512.firebaseapp.com",projectId:"jop720-82512",storageBucket:"jop720-82512.firebasestorage.app",messagingSenderId:"580756353467",appId:"1:580756353467:web:ffa6bef45d73e9273d149e"};
+const $=s=>document.querySelector(s),L=localStorage;
+const MON=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktyabr','Noyabr','Dekabr'],WD=['Yakshanba','Dushanba','Seshanba','Chorshanba','Payshanba','Juma','Shanba'];
+let cfg=FIREBASE_CONFIG||JSON.parse(L.fbcfg||'null'),db,started=0,ld=0,pg=0;
+const p2=n=>String(n).padStart(2,'0'),k=n=>String(n).trim().toLowerCase(),pid=(a,b)=>[k(a),k(b)].sort().join('|');
+function dk(t){const d=new Date(t);return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+const tm=t=>{const d=new Date(t);return p2(d.getHours())+':'+p2(d.getMinutes())},dtl=t=>dk(t)+'T'+tm(t);
+const f=n=>Math.round(n).toLocaleString('en').replace(/,/g,' '),sum=a=>a.reduce((s,e)=>s+e.count*e.price,0),cnt=a=>a.reduce((s,e)=>s+e.count,0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S={me:L.me||'',pair:L.pair||'',page:'home',E:[],M:[],P:[],cal:new Date(),day:dk(Date.now()),added:[],mode:'odd',price:+L.price||100,sheet:null,f:{}};
+const P=()=>S.P.find(p=>p.id===S.pair),PE=()=>S.E.filter(e=>e.pair===S.pair).sort((a,b)=>b.ts-a.ts),OP=()=>PE().filter(e=>!e.mid);
+const other=p=>{const o=p.users.find(u=>u!==k(S.me))||p.users[0];return p.names?.[o]||o},people=p=>[S.me,other(p)];
+const av=n=>{const h=[...k(n)].reduce((s,c)=>s+c.charCodeAt(0),0)*37%360;return`<i class=av style="background:linear-gradient(135deg,hsl(${h} 85% 58%),hsl(${(h+50)%360} 80% 42%))">${esc((String(n).trim()[0]||'?').toUpperCase())}</i>`};
+const head=(t,s,c=1)=>`<div class=hd><div><h1>${t}</h1><small>${s}</small></div>${c&&P()?`<button class=chip data-go=partners>${av(other(P()))}${esc(other(P()))} ▾</button>`:''}</div>`;
+const empty=()=>`<div class=card>Hali sherik yo'q. Sherik qo'shing, hisob u bilan birga yuritiladi.</div><button class=pri data-act=addp>+ Sherik qo'shish</button>`;
+const dlab=key=>{const d=new Date(key+'T00:00');return d.getDate()+' '+MON[d.getMonth()]+', '+WD[d.getDay()]};
+const row=(e,a=1)=>{const d=new Date(e.ts);return`<div class=row><div class=rt>${av(e.worker)}<div><b>${esc(e.worker)}</b><small>${e.count} ta ish • ${f(e.count*e.price)} so'm</small><small>${e.count} × ${f(e.price)}${e.note?' • '+esc(e.note):''}</small></div><span class=tm>${tm(e.ts)}<em>${p2(d.getDate())}.${p2(d.getMonth()+1)}.${d.getFullYear()}</em></span></div>${a?`<div class=ra><button data-ed="${e.id}">✎ Tahrirlash</button><button class=dl data-del="${e.id}">🗑 O'chirish</button></div>`:''}</div>`};
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),1500)}
+function start(){if(started||!db||!S.me)return;started=1;const me=k(S.me),q=c=>query(collection(db,c),where('users','array-contains',me)),mp=s=>s.docs.map(d=>({id:d.id,...d.data()}));
+onSnapshot(q('entries'),s=>{S.E=mp(s);ld|=1;purge();draw()});
+onSnapshot(q('months'),s=>{S.M=mp(s);ld|=2;purge();draw()});
+onSnapshot(q('pairs'),s=>{S.P=mp(s);if(!P())S.pair=S.P[0]?.id||'';draw()})}
+function purge(){if(pg||ld<3)return;const old=S.M.filter(m=>m.expireAt<Date.now()),orph=S.E.filter(e=>e.mid&&!S.M.find(m=>m.id===e.mid));if(!old.length&&!orph.length)return;pg=1;const b=writeBatch(db);old.forEach(m=>{b.delete(doc(db,'months',m.id));S.E.filter(e=>e.mid===m.id).forEach(e=>b.delete(doc(db,'entries',e.id)))});orph.forEach(e=>b.delete(doc(db,'entries',e.id)));b.commit().catch(()=>{}).finally(()=>pg=0)}
+async function addE(w,c,pr,nt,ts){const p=P();if(p.closed){if(!confirm('Oylik yopilgan. Yangi oylikni ochib davom etamizmi?'))return;await updateDoc(doc(db,'pairs',p.id),{closed:false})}
+const r=await addDoc(collection(db,'entries'),{pair:p.id,users:p.users,worker:w,count:c,price:pr,note:nt,ts,mid:null});S.added.unshift(r.id);return 1}
+const form=()=>{const F=S.f;return`<label>Sherikni tanlang</label><div class=wk>${people(P()).map(n=>`<button class="${k(n)===k(F.w)?'on':''}" data-w="${esc(n)}">${av(n)}${esc(n)}</button>`).join('')}</div>
+<label>Ish soni</label><div class=st><button data-step=-1>−</button><input id=c type=number inputmode=numeric value="${F.c}"><button data-step=1>+</button></div>
+<label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${F.pr}">
+<div class=tot>Jami summa<b id=tot>${f((+F.c||0)*(+F.pr||0))} so'm</b></div>
+<label>Sana va soat</label><input id=dt type=datetime-local value="${F.dt}"><label>Izoh (ixtiyoriy)</label><textarea id=nt placeholder="Masalan: 1-variant, buyurtma va h.k.">${esc(F.nt||'')}</textarea>`};
+function home(){const p=P();if(!p)return head('Asosiy','Bugungi ishlar va hisob')+empty();const t=PE().filter(e=>dk(e.ts)===dk(Date.now()));
+return head('Asosiy','Bugungi ishlar va hisob')+(p.closed?`<div class=card>🔒 Oylik yopilgan. Yangi ish qo'shsangiz, yangi oylik ochiladi.</div>`:'')+
+`<div class=two>${people(p).map((n,i)=>{const a=t.filter(e=>k(e.worker)===k(n));return`<div class="pc c${i}">${av(n)}<b>${esc(n)}</b><small>${i?'&nbsp;':'(Siz)'}</small><span>Ishlar: ${cnt(a)}</span><span>Hisob: ${f(sum(a))} so'm</span></div>`}).join('')}</div>
+<div class=big><span style="font-size:34px">💵</span><div><small style="color:#aef">Bugungi jami</small><b>${f(sum(t))} so'm</b><small>${cnt(t)} ta ish</small></div></div>
+<h2>Bugungi ishlar</h2>${t.map(e=>row(e)).join('')||'<small>Bugun hali ish qo\'shilmagan</small>'}<button class=pri data-act=add>+ Yangi ish qo'shish</button>`}
+function add(){const p=P(),ad=S.added.map(id=>S.E.find(e=>e.id===id)).filter(Boolean);
+return`<div class=hd><div><h1>Yangi ish qo'shish</h1><small>${esc(other(p))} bilan</small></div><button class=chip data-go=home>✕ Yopish</button></div>
+<div class=tabs><button class="${S.mode=='odd'?'on':''}" data-mode=odd>Oddiy qo'shish</button><button class="${S.mode=='tez'?'on':''}" data-mode=tez>Tez qo'shish</button></div>`+
+(S.mode=='odd'?form()+`<button class=pri data-act=save>Saqlash</button>`:`<label>Kim ishladi</label><div class=wk>${people(p).map(n=>`<button class="${k(n)===k(S.f.w)?'on':''}" data-w="${esc(n)}">${av(n)}${esc(n)}</button>`).join('')}</div><label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${S.f.pr}"><div class=qs>${[1,5,10,25,50,100,167,200].map(n=>`<button data-q=${n}>+${n}</button>`).join('')}</div>`)+
+`<h2>Hozir qo'shilgan ishlar (${ad.length})</h2>${ad.map(e=>row(e)).join('')||'<small>Bu yerda yangi qo\'shganlaringiz ko\'rinadi</small>'}`}
+function total(){const p=P();if(!p)return head('Jami hisob','Umumiy natija')+empty();const o=OP(),t=sum(o),days={};o.forEach(e=>(days[dk(e.ts)]??=[]).push(e));const last=o[0];
+return head('Jami hisob','Joriy oylik natijasi')+`<div class="big hero"><span style="font-size:38px">💰</span><div><small style="color:#dff">Umumiy hisob</small><b>${f(t)} so'm</b><small style="color:#dff">${cnt(o)} ta ish${last?' • oxirgi: '+dk(last.ts).split('-').reverse().join('.')+' '+tm(last.ts):''}</small></div></div>
+<div class=two>${people(p).map((n,i)=>{const a=o.filter(e=>k(e.worker)===k(n)),pc=t?Math.round(sum(a)/t*100):0;return`<div class="pc c${i}">${av(n)}<b>${esc(n)}</b><span>${f(sum(a))} so'm</span><small style="color:#cde">${cnt(a)} ta ish</small><div class=ring style="--p:${pc}"><i>${pc}%</i></div></div>`}).join('')}</div>
+<h2>Kunlar bo'yicha</h2>`+(Object.keys(days).sort().reverse().map(key=>{const a=days[key].sort((x,y)=>x.ts-y.ts);return`<button class="row lk" style="display:block" data-gday="${key}"><div class=rt><div><b>${dlab(key)}</b><small>${tm(a[0].ts)} – ${tm(a[a.length-1].ts)} • ${a.length} marta qo'shilgan</small></div><span class=tm style="font-size:14px"><b>${f(sum(a))} so'm</b>${cnt(a)} ta</span></div></button>`}).join('')||'<small>Hali ish yo\'q</small>')}
+function hist(){const p=P();if(!p)return head('Tarix','Bajarilgan ishlar tarixi')+empty();const y=S.cal.getFullYear(),m=S.cal.getMonth(),all=PE(),has=new Set(all.map(e=>dk(e.ts))),first=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+let g=['Du','Se','Ch','Pa','Ju','Sh','Ya'].map(d=>`<i class=wd>${d}</i>`).join('')+'<i></i>'.repeat(first);
+for(let d=1;d<=n;d++){const key=y+'-'+p2(m+1)+'-'+p2(d);g+=`<button class="${key==S.day?'on ':''}${has.has(key)?'has ':''}${key==dk(Date.now())?'td':''}" data-day="${key}">${d}</button>`}
+const de=all.filter(e=>dk(e.ts)===S.day).sort((a,b)=>a.ts-b.ts);
+return head('Tarix','Bajarilgan ishlar tarixi')+`<div class=card><div class=cn><button data-cal=-1>‹</button>${y} – ${MON[m]}<button data-cal=1>›</button></div><div class=cal>${g}</div></div>
+<h2>${dlab(S.day)}</h2><div class=tl><div><b>${cnt(de)}</b><small>Ishlar soni</small></div><div><b>${f(sum(de))}</b><small>Jami summa (so'm)</small></div></div>${de.map(e=>row(e)).join('')||'<small>Bu kuni ish yozilmagan</small>'}`}
+function partners(){const o=S.E.filter(e=>!e.mid);
+return head('Sheriklar',`${S.P.length} kishi bilan ishlagansiz`,0)+`<div class="big hero"><span style="font-size:34px">🤝</span><div><small style="color:#dff">Hamma sheriklar bo'yicha (joriy oylik)</small><b>${f(sum(o))} so'm</b><small style="color:#dff">${cnt(o)} ta ish</small></div></div><h2>Sheriklar (${S.P.length})</h2>`+
+S.P.map(p=>{const a=o.filter(e=>e.pair===p.id),n=other(p);return`<button class="card pr" data-pick="${p.id}">${av(n)}<div><b>${esc(n)}</b><small>${cnt(a)} ta ish • ${f(sum(a))} so'm</small></div>${p.closed?'<em class=bd>Yopilgan</em>':'<em class="bd g">Ochiq</em>'}</button>`}).join('')+`<button class=pri data-act=addp>+ Sherik qo'shish</button>`}
+function month(){const p=P();if(!p)return head('Oylik hisob','Oylikni boshqarish')+empty();const o=OP(),ms=S.M.filter(m=>m.pair===p.id).sort((a,b)=>b.closedAt-a.closedAt);
+return head('Oylik hisob','Oylikni boshqarish')+`<div class=card><div class=rt><div><small>Joriy oylik</small><span class=b2>${f(sum(o))} so'm</span><small>${cnt(o)} ta ish</small></div><em class="bd ${p.closed?'':'g'}">${p.closed?'Yopilgan':'Ochiq'}</em></div></div>
+<div class=two><button class=pri data-act=open ${p.closed?'':'disabled'}>Oylikni ochish</button><button class=gh data-act=close ${p.closed?'disabled':''}>Oylikni yopish</button></div><h2>Oylik tarix</h2>`+
+(ms.map(m=>`<div class=card><b>${esc(m.label)}</b><small>Yopildi • ${f(m.total)} so'm • ${m.count} ta ish</small><small>${Object.entries(m.by).map(([n,v])=>esc(n)+': '+v.c+' ta, '+f(v.s)+" so'm").join(' | ')}</small><small>${Math.max(0,Math.ceil((m.expireAt-Date.now())/864e5))} kundan keyin avtomatik o'chadi</small></div>`).join('')||'<small>Hali yopilgan oylik yo\'q</small>')}
+const set=()=>head('Sozlamalar','Profil va ulanish',0)+`<div class="card pr">${av(S.me)}<div><b>${esc(S.me)}</b><small>Sizning hisobingiz</small></div></div>
+<label>Standart ish narxi (so'm)</label><input id=dp type=number inputmode=numeric value="${S.price}"><div style="height:12px"></div>
+<div class=card style="padding:0"><div class=lk>☁️ Firebase bilan sinxronlash <em class="bd g">Ulangan</em></div><button class=lk data-act=cfg>🔧 Firebase sozlamasini o'zgartirish</button><button class=lk data-act=exit style="border:0">⏏ Chiqish (ismni almashtirish)</button></div><small style="text-align:center;margin-top:18px">Birga ishlash – katta natija!</small>`;
+const splash=()=>`<div class=splash><div class=logo>🧮</div><h1>Ish Hisobi</h1><p>Birga ishlaymiz –<br>birga hisoblaymiz!</p><label style="text-align:left;margin-top:36px">Ismingizni yozing</label><input id=nm placeholder="Masalan: Azizbek" autocomplete=off><button class=pri style="margin-top:14px" data-act=name>Boshlash</button><small>Sherigingiz ham o'z ismini yozadi</small></div>`;
+const setup=()=>`<div class=splash style="padding-top:6vh"><div class=logo>☁️</div><h1 style="font-size:28px">Firebase ulash</h1><small>Firebase konsolidan «firebaseConfig» kodini nusxalab qo'ying</small><textarea id=cf style="height:200px;margin-top:16px" placeholder='{ apiKey: "...", authDomain: "...", projectId: "...", appId: "..." }'></textarea><button class=pri style="margin-top:14px" data-act=savecfg>Ulash</button></div>`;
+const nav=()=>`<nav><div>${[['home','🏠','Asosiy'],['partners','👥','Sheriklar'],['total','💰','Jami'],['hist','📅','Tarix'],['month','🗓','Oylik'],['set','⚙️','Sozlama']].map(([i,e,l])=>`<button class="${S.page==i?'on':''}" data-go=${i}><span>${e}</span>${l}</button>`).join('')}</div></nav>`;
+function draw(force){const a=document.activeElement;if(!force&&a&&/INPUT|TEXTAREA/.test(a.tagName)&&a.id)return;let h;
+if(!cfg)h=setup();else if(!S.me)h=splash();else h=({home,add,total,hist,partners,month,set})[S.page]();
+$('#app').innerHTML=h+(cfg&&S.me&&S.page!='add'?nav():'')+(S.sheet?`<div class=ov><div class=sh><h3>Tahrirlash</h3>${form()}<button class=pri data-act=save>Saqlash</button><button class=gh data-act=cancel>Bekor qilish</button></div></div>`:'')}
+const acts={
+add(){S.f={w:S.me,c:1,pr:S.price,nt:'',dt:dtl(Date.now())};S.added=[];S.page='add'},
+async save(){const F=S.f,c=Math.max(1,parseInt(F.c)||0),pr=Math.max(0,+F.pr||0),ts=F.dt?new Date(F.dt).getTime():Date.now();
+if(S.sheet){await updateDoc(doc(db,'entries',S.sheet),{worker:F.w,count:c,price:pr,note:F.nt||'',ts});S.sheet=null;toast('Saqlandi')}
+else if(await addE(F.w,c,pr,F.nt||'',ts)){L.price=S.price=pr;S.f={...F,c:1,nt:'',dt:dtl(Date.now())};toast('Saqlandi')}},
+cancel(){S.sheet=null},
+async close(){const p=P(),o=OP();if(!o.length)return toast("Yopish uchun ish yo'q");if(!confirm("Oylikni yopamizmi? Hisob saqlanadi va 2 oydan keyin o'chib ketadi."))return;
+const ts=o.map(e=>e.ts),a=new Date(Math.min(...ts)),z=new Date(Math.max(...ts)),ex=new Date();ex.setMonth(ex.getMonth()+2);const mr=doc(collection(db,'months')),b=writeBatch(db),by={};
+people(p).forEach(n=>{const x=o.filter(e=>k(e.worker)===k(n));by[n]={c:cnt(x),s:sum(x)}});
+b.set(mr,{pair:p.id,users:p.users,label:`${a.getDate()} ${MON[a.getMonth()]} – ${z.getDate()} ${MON[z.getMonth()]} ${z.getFullYear()}`,total:sum(o),count:cnt(o),by,closedAt:Date.now(),expireAt:ex.getTime()});
+o.forEach(e=>b.update(doc(db,'entries',e.id),{mid:mr.id}));b.update(doc(db,'pairs',p.id),{closed:true});await b.commit();toast('Oylik yopildi')},
+async open(){await updateDoc(doc(db,'pairs',P().id),{closed:false});toast('Yangi oylik ochildi')},
+async addp(){const n=(prompt("Sherikning ismini yozing (u o'z ismini xuddi shunday yozadi)")||'').trim();if(!n||k(n)===k(S.me))return;const id=pid(S.me,n);
+await setDoc(doc(db,'pairs',id),{users:[k(S.me),k(n)].sort(),names:{[k(S.me)]:S.me,[k(n)]:n}},{merge:true});S.pair=L.pair=id},
+name(){const n=$('#nm').value.trim();if(!n)return;L.me=S.me=n;start()},
+exit(){L.removeItem('me');location.reload()},cfg(){L.removeItem('fbcfg');location.reload()},
+savecfg(){try{cfg=Function('return '+$('#cf').value.match(/\{[\s\S]*\}/)[0])();L.fbcfg=JSON.stringify(cfg);location.reload()}catch(e){alert("Kod noto'g'ri. Qavs { } bilan to'liq nusxalang.")}}};
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-go],[data-day],[data-gday],[data-cal],[data-ed],[data-del],[data-w],[data-step],[data-q],[data-act],[data-pick],[data-mode]');if(!t)return;const d=t.dataset;
+if(d.go){S.page=d.go;S.sheet=null}else if(d.pick){S.pair=L.pair=d.pick;S.page='total'}else if(d.gday){S.day=d.gday;S.cal=new Date(d.gday+'T00:00');S.page='hist'}
+else if(d.day)S.day=d.day;else if(d.cal)S.cal=new Date(S.cal.getFullYear(),S.cal.getMonth()+ +d.cal,1);
+else if(d.ed){const x=S.E.find(e=>e.id===d.ed);S.f={w:x.worker,c:x.count,pr:x.price,nt:x.note||'',dt:dtl(x.ts)};S.sheet=x.id}
+else if(d.del){if(confirm("O'chiramizmi?"))await deleteDoc(doc(db,'entries',d.del))}
+else if(d.w)S.f.w=d.w;else if(d.step)S.f.c=Math.max(1,(+S.f.c||0)+ +d.step);
+else if(d.q){if(await addE(S.f.w,+d.q,+S.f.pr||0,'',Date.now()))toast('+'+d.q)}
+else if(d.mode)S.mode=d.mode;else if(d.act)try{await acts[d.act]()}catch(x){alert('Xato: '+x.message)}
+draw(1)});
+document.addEventListener('input',e=>{const t=e.target;if(['c','pr','nt','dt'].includes(t.id)){S.f[t.id]=t.value;const x=$('#tot');if(x)x.textContent=f((+S.f.c||0)*(+S.f.pr||0))+" so'm"}});
+document.addEventListener('change',e=>{if(e.target.id=='dp'){L.price=S.price=Math.max(0,+e.target.value||100)}});
+if(cfg)try{db=getFirestore(initializeApp(cfg));start()}catch(e){L.removeItem('fbcfg');cfg=null}
+draw(1);
+</script></body></html>
