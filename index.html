@@ -116,7 +116,7 @@ function partners(){const o=S.E.filter(e=>!e.mid);
 return head('Sheriklar',`${S.P.length} kishi bilan ishlagansiz`,0)+`<div class="big hero"><span style="font-size:34px">🤝</span><div><small style="color:#dff">Hamma sheriklar bo'yicha (joriy oylik)</small><b>${f(sum(o))} so'm</b><small style="color:#dff">${cnt(o)} ta ish</small></div></div><h2>Sheriklar (${S.P.length})</h2>`+
 S.P.map(p=>{const a=o.filter(e=>e.pair===p.id),n=other(p);return`<button class="card pr" data-pick="${p.id}">${av(n)}<div><b>${esc(n)}</b><small>${cnt(a)} ta ish • ${f(sum(a))} so'm</small></div>${p.closed?'<em class=bd>Yopilgan</em>':'<em class="bd g">Ochiq</em>'}</button>`}).join('')+`<button class=pri data-act=addp>+ Sherik qo'shish</button>`}
 function month(){const p=P();if(!p)return head('Oylik hisob','Oylikni boshqarish')+empty();const o=OP(),ms=S.M.filter(m=>m.pair===p.id).sort((a,b)=>b.closedAt-a.closedAt);
-return head('Oylik hisob','Oylikni boshqarish',0)+fchips(0)+`<div class=card><div class=rt><div><small>Joriy oylik</small><span class=b2>${f(sum(o))} so'm</span><small>${cnt(o)} ta ish</small></div><em class="bd ${p.closed?'':'g'}">${p.closed?'Yopilgan':'Ochiq'}</em></div></div>
+return head('Oylik hisob','Oylikni boshqarish',0)+`<div class="big hero"><span style="font-size:34px">🏦</span><div><small style="color:#dff">Umumiy oylik (hamma sheriklar)</small><b>${f(sum(S.E.filter(e=>!e.mid)))} so'm</b><small style="color:#dff">${cnt(S.E.filter(e=>!e.mid))} ta ish • ${S.P.length} ta sherik</small></div></div>`+fchips(0)+`<div class=card><div class=rt><div><small>Joriy oylik</small><span class=b2>${f(sum(o))} so'm</span><small>${cnt(o)} ta ish</small></div><em class="bd ${p.closed?'':'g'}">${p.closed?'Yopilgan':'Ochiq'}</em></div></div>
 <div class=two><button class=pri data-act=open ${p.closed?'':'disabled'}>Oylikni ochish</button><button class=gh data-act=close ${p.closed?'disabled':''}>Oylikni yopish</button></div><h2>Oylik tarix</h2>`+
 (ms.map(m=>`<div class=card><b>${esc(m.label)}</b><small>Yopildi • ${f(m.total)} so'm • ${m.count} ta ish</small><small>${Math.max(0,Math.ceil((m.expireAt-Date.now())/864e5))} kundan keyin avtomatik o'chadi</small></div>`).join('')||'<small>Hali yopilgan oylik yo\'q</small>')}
 const set=()=>head('Sozlamalar','Profil va ulanish',0)+`<div class="card pr">${av(S.me)}<div><b>${esc(S.me)}</b><small>Sizning hisobingiz</small></div></div>
@@ -156,6 +156,9 @@ else if(d.mode)S.mode=d.mode;else if(d.act)try{await acts[d.act]()}catch(x){aler
 draw(1)});
 document.addEventListener('input',e=>{const t=e.target;if(['c','pr','nt','dt'].includes(t.id)){S.f[t.id]=t.value;const x=$('#tot');if(x)x.textContent=f((+S.f.c||0)*(+S.f.pr||0))+" so'm"}});
 document.addEventListener('change',e=>{if(e.target.id=='dp'){L.price=S.price=Math.max(0,+e.target.value||100)}});
+const TABS=['home','partners','total','hist','month','set'];let tx=0,ty=0,sw=0;
+document.addEventListener('touchstart',e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;sw=e.touches.length==1&&!e.target.closest('input,textarea,.fc,.ov')},{passive:true});
+document.addEventListener('touchend',e=>{if(!sw||S.sheet||!cfg||!S.me)return;const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty,i=TABS.indexOf(S.page);if(i<0||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.5)return;const j=i+(dx<0?1:-1);if(j<0||j>=TABS.length)return;S.page=TABS[j];draw(1);scrollTo(0,0)},{passive:true});
 if(cfg)try{db=getFirestore(initializeApp(cfg));start()}catch(e){L.removeItem('fbcfg');cfg=null}
 draw(1);
 </script></body></html>
