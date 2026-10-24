@@ -71,7 +71,7 @@ function dk(t){const d=new Date(t);return d.getFullYear()+'-'+p2(d.getMonth()+1)
 const tm=t=>{const d=new Date(t);return p2(d.getHours())+':'+p2(d.getMinutes())},dtl=t=>dk(t)+'T'+tm(t);
 const f=n=>Math.round(n).toLocaleString('en').replace(/,/g,' '),sum=a=>a.reduce((s,e)=>s+e.count*e.price,0),cnt=a=>a.reduce((s,e)=>s+e.count,0);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const S={me:L.me||'',pair:L.pair||'',page:'home',E:[],M:[],P:[],cal:new Date(),day:dk(Date.now()),added:[],mode:'odd',price:+L.price||100,sheet:null,f:{},flt:''};
+const S={me:L.me||'',pair:L.pair||'',page:'home',E:[],M:[],P:[],cal:new Date(),day:dk(Date.now()),added:[],mode:'odd',price:+L.price||100,sheet:null,f:{},flt:'',fd:''};
 const P=()=>S.P.find(p=>p.id===S.pair),PE=()=>S.E.filter(e=>e.pair===S.pair).sort((a,b)=>b.ts-a.ts),OP=()=>PE().filter(e=>!e.mid);
 const other=p=>{const o=p.users.find(u=>u!==k(S.me))||p.users[0];return p.names?.[o]||o},people=p=>[S.me,other(p)];
 const av=n=>{const h=[...k(n)].reduce((s,c)=>s+c.charCodeAt(0),0)*37%360;return`<i class=av style="background:linear-gradient(135deg,hsl(${h} 85% 58%),hsl(${(h+50)%360} 80% 42%))">${esc((String(n).trim()[0]||'?').toUpperCase())}</i>`};
@@ -98,15 +98,15 @@ const form=()=>{const F=S.f;return`<label>Kim bilan ishladingiz?</label>${pchips
 <label>Ish soni (ikkalangizga ham yoziladi)</label><div class=st><button data-step=-1>−</button><input id=c type=number inputmode=numeric value="${F.c}"><button data-step=1>+</button></div>
 <label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${F.pr}">
 <div class=tot>Har biringizga<b id=tot>${f((+F.c||0)*(+F.pr||0))} so'm</b></div>
-<label>Sana va soat</label><input id=dt type=datetime-local value="${F.dt}"><label>Izoh (ixtiyoriy)</label><textarea id=nt placeholder="Masalan: 1-variant, buyurtma va h.k.">${esc(F.nt||'')}</textarea>`};
+${S.fd&&!S.sheet?`<label>Sana</label><div class=tot style="margin:0"><span>📅 ${dlab(S.fd)}</span></div><label>Soat (o'zingiz tanlang)</label><input id=tt type=time value="${F.tm||''}">`:`<label>Sana va soat</label><input id=dt type=datetime-local value="${F.dt}">`}<label>Izoh (ixtiyoriy)</label><textarea id=nt placeholder="Masalan: 1-variant, buyurtma va h.k.">${esc(F.nt||'')}</textarea>`};
 function home(){if(!S.P.length)return head('Asosiy','Bugungi ishlar va hisob',0)+empty();const t=S.E.filter(e=>dk(e.ts)===dk(Date.now())).sort((a,b)=>b.ts-a.ts);
 return head('Asosiy','Bugungi ishlar va hisob',0)+`<div class=big><span style="font-size:34px">💵</span><div><small style="color:#aef">Bugungi jami</small><b>${f(sum(t))} so'm</b><small>${cnt(t)} ta ish</small></div></div>
 <div class=two>${S.P.map((p,i)=>{const a=t.filter(e=>e.pair===p.id),n=other(p);return`<div class="pc c${i%2}">${av(n)}<b>${esc(n)} bilan</b><span>Ishlar: ${cnt(a)}</span><span>Hisob: ${f(sum(a))} so'm</span></div>`}).join('')}</div>
 <h2>Bugungi ishlar</h2>${t.map(e=>row(e)).join('')||'<small>Bugun hali ish qo\'shilmagan</small>'}<button class=pri data-act=add>+ Yangi ish qo'shish</button>`}
 function add(){const p=S.P.find(x=>x.id===S.f.pair),ad=S.added.map(id=>S.E.find(e=>e.id===id)).filter(Boolean);
-return`<div class=hd><div><h1>Yangi ish qo'shish</h1><small>${p?esc(other(p))+' bilan':'Sherikni tanlang'}</small></div><button class=chip data-go=home>✕ Yopish</button></div>
-<div class=tabs><button class="${S.mode=='odd'?'on':''}" data-mode=odd>Oddiy qo'shish</button><button class="${S.mode=='tez'?'on':''}" data-mode=tez>Tez qo'shish</button></div>`+
-(S.mode=='odd'?form()+`<button class=pri data-act=save>Saqlash</button>`:`<label>Kim bilan ishladingiz?</label>${pchips()}<label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${S.f.pr}"><div class=qs>${[1,5,10,25,50,100,167,200].map(n=>`<button data-q=${n}>+${n}</button>`).join('')}</div>`)+
+return`<div class=hd><div><h1>Yangi ish qo'shish</h1><small>${S.fd?dlab(S.fd)+' • ':''}${p?esc(other(p))+' bilan':'Sherikni tanlang'}</small></div><button class=chip data-go=${S.fd?'hist':'home'}>✕ Yopish</button></div>
+<div class=tabs${S.fd?' style="display:none"':''}><button class="${S.mode=='odd'?'on':''}" data-mode=odd>Oddiy qo'shish</button><button class="${S.mode=='tez'?'on':''}" data-mode=tez>Tez qo'shish</button></div>`+
+(S.mode=='odd'||S.fd?form()+`<button class=pri data-act=save>Saqlash</button>`:`<label>Kim bilan ishladingiz?</label>${pchips()}<label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${S.f.pr}"><div class=qs>${[1,5,10,25,50,100,167,200].map(n=>`<button data-q=${n}>+${n}</button>`).join('')}</div>`)+
 `<h2>Hozir qo'shilgan ishlar (${ad.length})</h2>${ad.map(e=>row(e)).join('')||'<small>Bu yerda yangi qo\'shganlaringiz ko\'rinadi</small>'}`}
 function total(){if(!S.P.length)return head('Jami hisob','Umumiy natija',0)+empty();const o=S.E.filter(e=>!e.mid&&(!S.flt||e.pair===S.flt)),t=sum(o),days={};o.forEach(e=>(days[dk(e.ts)]??=[]).push(e));
 const last=o.slice().sort((a,b)=>b.ts-a.ts)[0],fp=S.P.find(p=>p.id===S.flt);
@@ -115,10 +115,10 @@ return head('Jami hisob','Joriy oylik natijasi',0)+fchips(1)+`<div class="big he
 `<h2>Kunlar bo'yicha</h2>`+(Object.keys(days).sort().reverse().map(key=>{const a=days[key].sort((x,y)=>x.ts-y.ts);return`<button class="row lk" style="display:block" data-gday="${key}"><div class=rt><div><b>${dlab(key)}</b><small>${tm(a[0].ts)} – ${tm(a[a.length-1].ts)} • ${[...new Set(a.map(pn))].map(esc).join(', ')}</small></div><span class=tm style="font-size:14px"><b>${f(sum(a))} so'm</b>${cnt(a)} ta</span></div></button>`}).join('')||'<small>Hali ish yo\'q</small>')}
 function hist(){if(!S.P.length)return head('Tarix','Bajarilgan ishlar tarixi',0)+empty();const y=S.cal.getFullYear(),m=S.cal.getMonth(),all=S.E.filter(e=>!S.flt||e.pair===S.flt),has=new Set(all.map(e=>dk(e.ts))),first=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
 let g=['Du','Se','Ch','Pa','Ju','Sh','Ya'].map(d=>`<i class=wd>${d}</i>`).join('')+'<i></i>'.repeat(first);
-for(let d=1;d<=n;d++){const key=y+'-'+p2(m+1)+'-'+p2(d);g+=`<button class="${key==S.day?'on ':''}${has.has(key)?'has ':''}${key==dk(Date.now())?'td':''}" data-day="${key}">${d}</button>`}
+for(let d=1;d<=n;d++){const key=y+'-'+p2(m+1)+'-'+p2(d);g+=`<button class="${key==S.day?'on ':''}${has.has(key)?'has ':''}${key==dk(Date.now())?'td':''}" data-day="${key}"${key>dk(Date.now())?' disabled':''}>${d}</button>`}
 const de=all.filter(e=>dk(e.ts)===S.day).sort((a,b)=>a.ts-b.ts);
 return head('Tarix','Bajarilgan ishlar tarixi',0)+fchips(1)+`<div class=card><div class=cn><button data-cal=-1>‹</button>${y} – ${MON[m]}<button data-cal=1>›</button></div><div class=cal>${g}</div></div>
-<h2>${dlab(S.day)}</h2><div class=tl><div><b>${cnt(de)}</b><small>Ishlar soni</small></div><div><b>${f(sum(de))}</b><small>Jami summa (so'm)</small></div></div>${de.map(e=>row(e)).join('')||'<small>Bu kuni ish yozilmagan</small>'}`}
+<h2>${dlab(S.day)}</h2><div class=tl><div><b>${cnt(de)}</b><small>Ishlar soni</small></div><div><b>${f(sum(de))}</b><small>Jami summa (so'm)</small></div></div>${de.map(e=>row(e)).join('')||'<small>Bu kuni ish yozilmagan</small>'}${S.day<=dk(Date.now())&&S.P.length?`<button class=pri data-act=addday style="margin-top:14px">+ Shu kunga ish qo'shish</button>`:''}`}
 function partners(){const o=S.E.filter(e=>!e.mid);
 return head('Sheriklar',`${S.P.length} kishi bilan ishlagansiz`,0)+`<div class="big hero"><span style="font-size:34px">🤝</span><div><small style="color:#dff">Hamma sheriklar bo'yicha (joriy oylik)</small><b>${f(sum(o))} so'm</b><small style="color:#dff">${cnt(o)} ta ish</small></div></div><h2>Sheriklar (${S.P.length})</h2>`+
 S.P.map(p=>{const a=o.filter(e=>e.pair===p.id),n=other(p);return`<div class=card><button class=pr style="width:100%;text-align:left" data-pick="${p.id}">${av(n)}<div><b>${esc(n)}</b><small>${cnt(a)} ta ish • ${f(sum(a))} so'm</small></div>${p.closed?'<em class=bd>Yopilgan</em>':'<em class="bd g">Ochiq</em>'}</button>${p.edited?`<small style="margin-top:6px">✎ tahrirlangan: ${dt2(p.edited)}</small>`:''}<div class=ra><button data-ep="${p.id}">✎ Tahrirlash</button><button class=dl data-dp="${p.id}">🗑 O'chirish</button></div></div>`}).join('')+`<button class=pri data-act=addp>+ Sherik qo'shish</button>`}
@@ -136,10 +136,11 @@ function draw(force){const a=document.activeElement;if(!force&&a&&/INPUT|TEXTARE
 if(!cfg)h=setup();else if(!S.me)h=splash();else h=({home,add,total,hist,partners,month,set})[S.page]();
 $('#app').innerHTML=h+(cfg&&S.me&&S.page!='add'?nav():'')+(S.sheet?`<div class=ov><div class=sh><h3>Tahrirlash</h3>${form()}<button class=pri data-act=save>Saqlash</button><button class=gh data-act=cancel>Bekor qilish</button></div></div>`:'')}
 const acts={
-add(){S.f={pair:S.pair||S.P[0]?.id||'',c:1,pr:S.price,nt:'',dt:dtl(Date.now())};S.added=[];S.page='add'},
-async save(){const F=S.f,c=Math.max(1,parseInt(F.c)||0),pr=Math.max(0,+F.pr||0),ts=F.dt?new Date(F.dt).getTime():Date.now();
+addday(){S.fd=S.day;S.f={pair:S.flt||S.pair||S.P[0]?.id||'',c:1,pr:S.price,nt:'',dt:'',tm:''};S.added=[];S.mode='odd';S.page='add'},
+add(){S.f={pair:S.pair||S.P[0]?.id||'',c:1,pr:S.price,nt:'',dt:dtl(Date.now())};S.added=[];S.fd='';S.page='add'},
+async save(){const F=S.f,c=Math.max(1,parseInt(F.c)||0),pr=Math.max(0,+F.pr||0);let ts=F.dt?new Date(F.dt).getTime():Date.now();if(S.fd&&!S.sheet){if(!F.tm)return toast('Soatni tanlang');ts=new Date(S.fd+'T'+F.tm).getTime();if(ts>Date.now())return toast("Kelajak vaqtini tanlab bo'lmaydi")}
 if(S.sheet){await updateDoc(doc(db,'entries',S.sheet),{pair:F.pair,users:S.P.find(p=>p.id===F.pair).users,count:c,price:pr,note:F.nt||'',ts,edited:Date.now()});S.sheet=null;toast('Saqlandi')}
-else if(await addE(c,pr,F.nt||'',ts)){L.price=S.price=pr;S.f={...F,c:1,nt:'',dt:dtl(Date.now())};toast('Saqlandi')}},
+else if(await addE(c,pr,F.nt||'',ts)){L.price=S.price=pr;S.f={...F,c:1,nt:'',tm:'',dt:S.fd?'':dtl(Date.now())};toast('Saqlandi')}},
 cancel(){S.sheet=null},
 async close(){const p=P(),o=OP();if(!o.length)return toast("Yopish uchun ish yo'q");if(!await ask('Oylikni yopamizmi?',"Hisob saqlanadi va 2 oydan keyin avtomatik o'chib ketadi.",{ok:'Yopish',ic:'🔒'}))return;
 const ts=o.map(e=>e.ts),a=new Date(Math.min(...ts)),z=new Date(Math.max(...ts)),ex=new Date();ex.setMonth(ex.getMonth()+2);const mr=doc(collection(db,'months')),b=writeBatch(db),by={};
@@ -163,7 +164,7 @@ else if(d.pp)S.f.pair=d.pp;else if('flt' in d){S.flt=d.flt;if(d.flt)S.pair=d.flt
 else if(d.q){if(await addE(+d.q,+S.f.pr||0,'',Date.now()))toast('+'+d.q)}
 else if(d.mode)S.mode=d.mode;else if(d.act)try{await acts[d.act]()}catch(x){alert('Xato: '+x.message)}
 draw(1)});
-document.addEventListener('input',e=>{const t=e.target;if(['c','pr','nt','dt'].includes(t.id)){S.f[t.id]=t.value;const x=$('#tot');if(x)x.textContent=f((+S.f.c||0)*(+S.f.pr||0))+" so'm"}});
+document.addEventListener('input',e=>{const t=e.target;if(['c','pr','nt','dt','tt'].includes(t.id)){S.f[t.id=='tt'?'tm':t.id]=t.value;const x=$('#tot');if(x)x.textContent=f((+S.f.c||0)*(+S.f.pr||0))+" so'm"}});
 document.addEventListener('change',e=>{if(e.target.id=='dp'){L.price=S.price=Math.max(0,+e.target.value||100)}});
 const TABS=['home','partners','total','hist','month','set'];let tx=0,ty=0,sw=0;
 document.addEventListener('touchstart',e=>{const t=e.touches[0];tx=t.clientX;ty=t.clientY;sw=e.touches.length==1&&!e.target.closest('input,textarea,.fc,.ov')},{passive:true});
