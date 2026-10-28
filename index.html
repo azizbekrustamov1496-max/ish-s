@@ -98,7 +98,7 @@ const form=()=>{const F=S.f;return`<label>Kim bilan ishladingiz?</label>${pchips
 <label>Ish soni (ikkalangizga ham yoziladi)</label><div class=st><button data-step=-1>−</button><input id=c type=number inputmode=numeric value="${F.c}"><button data-step=1>+</button></div>
 <label>Bir ish narxi (so'm)</label><input id=pr type=number inputmode=numeric value="${F.pr}">
 <div class=tot>Har biringizga<b id=tot>${f((+F.c||0)*(+F.pr||0))} so'm</b></div>
-${S.fd&&!S.sheet?`<label>Sana</label><div class=tot style="margin:0"><span>📅 ${dlab(S.fd)}</span></div><label>Soat (o'zingiz tanlang)</label><input id=tt type=time value="${F.tm||''}">`:`<label>Sana va soat</label><input id=dt type=datetime-local value="${F.dt}">`}<label>Izoh (ixtiyoriy)</label><textarea id=nt placeholder="Masalan: 1-variant, buyurtma va h.k.">${esc(F.nt||'')}</textarea>`};
+${S.fd&&!S.sheet?`<label>Sana</label><div class=tot style="margin:0"><span>📅 ${dlab(S.fd)}</span><small>soat avtomatik</small></div>`:''}<label>Izoh (ixtiyoriy)</label><textarea id=nt placeholder="Masalan: 1-variant, buyurtma va h.k.">${esc(F.nt||'')}</textarea>`};
 function home(){if(!S.P.length)return head('Asosiy','Bugungi ishlar va hisob',0)+empty();const t=S.E.filter(e=>dk(e.ts)===dk(Date.now())).sort((a,b)=>b.ts-a.ts);
 return head('Asosiy','Bugungi ishlar va hisob',0)+`<div class=big><span style="font-size:34px">💵</span><div><small style="color:#aef">Bugungi jami</small><b>${f(sum(t))} so'm</b><small>${cnt(t)} ta ish</small></div></div>
 <div class=two>${S.P.map((p,i)=>{const a=t.filter(e=>e.pair===p.id),n=other(p);return`<div class="pc c${i%2}">${av(n)}<b>${esc(n)} bilan</b><span>Ishlar: ${cnt(a)}</span><span>Hisob: ${f(sum(a))} so'm</span></div>`}).join('')}</div>
@@ -138,8 +138,8 @@ $('#app').innerHTML=h+(cfg&&S.me&&S.page!='add'?nav():'')+(S.sheet?`<div class=o
 const acts={
 addday(){S.fd=S.day;S.f={pair:S.flt||S.pair||S.P[0]?.id||'',c:1,pr:S.price,nt:'',dt:'',tm:''};S.added=[];S.mode='odd';S.page='add'},
 add(){S.f={pair:S.pair||S.P[0]?.id||'',c:1,pr:S.price,nt:'',dt:dtl(Date.now())};S.added=[];S.fd='';S.page='add'},
-async save(){const F=S.f,c=Math.max(1,parseInt(F.c)||0),pr=Math.max(0,+F.pr||0);let ts=F.dt?new Date(F.dt).getTime():Date.now();if(S.fd&&!S.sheet){if(!F.tm)return toast('Soatni tanlang');ts=new Date(S.fd+'T'+F.tm).getTime();if(ts>Date.now())return toast("Kelajak vaqtini tanlab bo'lmaydi")}
-if(S.sheet){await updateDoc(doc(db,'entries',S.sheet),{pair:F.pair,users:S.P.find(p=>p.id===F.pair).users,count:c,price:pr,note:F.nt||'',ts,edited:Date.now()});S.sheet=null;toast('Saqlandi')}
+async save(){const F=S.f,c=Math.max(1,parseInt(F.c)||0),pr=Math.max(0,+F.pr||0);let ts=Date.now();if(S.fd&&!S.sheet){const n=new Date();ts=new Date(S.fd+'T'+p2(n.getHours())+':'+p2(n.getMinutes())+':'+p2(n.getSeconds())).getTime();if(ts>Date.now())ts=Date.now()}
+if(S.sheet){await updateDoc(doc(db,'entries',S.sheet),{pair:F.pair,users:S.P.find(p=>p.id===F.pair).users,count:c,price:pr,note:F.nt||'',edited:Date.now()});S.sheet=null;toast('Saqlandi')}
 else if(await addE(c,pr,F.nt||'',ts)){L.price=S.price=pr;S.f={...F,c:1,nt:'',tm:'',dt:S.fd?'':dtl(Date.now())};toast('Saqlandi')}},
 cancel(){S.sheet=null},
 async close(){const p=P(),o=OP();if(!o.length)return toast("Yopish uchun ish yo'q");if(!await ask('Oylikni yopamizmi?',"Hisob saqlanadi va 2 oydan keyin avtomatik o'chib ketadi.",{ok:'Yopish',ic:'🔒'}))return;
